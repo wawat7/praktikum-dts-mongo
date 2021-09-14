@@ -1,0 +1,90 @@
+// [PRAKTIK - 01]
+use marketdb;
+db.createCollection("products");
+
+
+// [PRAKTIK - 02]
+db.products.insertMany([
+    {_id: 1, name: "Indomie Goreng"},
+    {_id: 2, name: "Indomie Kuah"},
+    {_id: 3, name: "Sarimie"}
+]);
+
+// [PRAKTIK - 03]
+use marketdb;
+db.products.drop();
+
+// [PRAKTIK - 04]
+// collection data
+https://gist.github.com/joesoeph/7f1dfded51db1d08afe2bdff4e43a831.
+
+// count products collection
+db.products.count()
+// dan hasilnya 16
+
+
+// [PRAKTIK - 05]
+db.products.aggregate({ $group : { _id: null, max: { $max : "$_id" }}});
+
+// [PRAKTIK - 06]
+db.products.find({
+    stock: { $lte: 50},
+    suppliers: { $elemMatch : {city: "Bandung"}}
+})
+
+// [PRAKTIK - 07]
+db.products.find({
+    suppliers: { $exists : false}
+})
+
+// [PRAKTIK - 08]
+db.products.find({
+    stock: { $lte: 50},
+    suppliers: { $elemMatch : {city: "Bandung"}}
+},{
+    _id: 0,
+    name: 1,
+    price: 1,
+    stock: 1,
+    unit: 1,
+})
+
+// [PRAKTIK - 09]
+db.products.find({
+    suppliers: {$exists: true}
+}).count()
+
+// [PRAKTIK - 10]
+db.products.find().limit(5).sort({ stock: -1})
+db.products.find().sort({ stock: -1}).limit(5)
+
+// [PRAKTUK - 11]
+db.products.insertOne({
+    _id: 16,
+    name: "Paramex",
+    stock: "30",
+    unit: "strip"
+});
+
+// [PRAKTIK - 12]
+db.products.replaceOne({ _id: 16},{
+    _id: 16,
+    name: "Paramex",
+    stock: "30",
+    unit: "strip",
+    categories: ["kimia", "obat"]
+});
+
+// [PRAKTIK - 13]
+db.products.updateOne({
+    _id: 16
+},{
+    $set: {
+        description: "Harga jual per strip, stok dalam strip"
+    }
+})
+
+// [PRAKTIK - 14]
+use marketdb;
+db.product.drop();
+
